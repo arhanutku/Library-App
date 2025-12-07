@@ -23,7 +23,7 @@ def initLibrary():
     sortedAuthors = buildSortedAuthors(sortedBooks)
     return sortedBooks, sortedAuthors
 
-# Build a de-duplicated author list while preserving the first-seen casing/order
+# Build a author list while preserving the first seen casing/order
 def buildSortedAuthors(sortedBooks):
     authors = []
     seen = set()
