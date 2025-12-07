@@ -1,3 +1,4 @@
+import os
 import sys
 import gradio as gr
 
@@ -6,6 +7,9 @@ import gradio as gr
 # Purpose: Library database that loads books, lists authors, and uses binary search to find books by author.
 # Date: 2025-12-03
 # Creator: Arhan B. Utku
+
+BOOKS_FILE = "books.csv"
+DEFAULT_PORT = int(os.environ.get("PORT", 7860))
 
 """
 The Book class contains a books title and its author
@@ -28,9 +32,14 @@ def loadBooks(filePath):
     books = []
     try:
         with open(filePath, 'r', encoding='utf-8') as file:
-            for line in file:
-                row = [dataField.strip() for dataField in line.strip().split(",") if dataField.strip() != "" or dataField == ""]
-                print(row)
+            for rawLine in file:
+                line = rawLine.strip()
+                if not line:
+                    continue  # skip empty rows
+                row = [dataField.strip() for dataField in line.split(",") if dataField.strip() != "" or dataField == ""]
+                if len(row) != 2:
+                    print(f"Skipping malformed row: {rawLine!r}")
+                    continue
                 title, author = row
                 books.append(Book(title, author))
     except FileNotFoundError:
@@ -141,7 +150,7 @@ def buildSortedAuthors(sortedBooks):
     return authors
 
 # This helper loads the books file, sorts by author, and creates the author list.
-def initLibrary(filePath="requirements.txt"):
+def initLibrary(filePath=BOOKS_FILE):
     books = loadBooks(filePath)
     sortedBooks = mergeSortBooksByAuthor(books)
     sortedAuthors = buildSortedAuthors(sortedBooks)
@@ -173,8 +182,7 @@ def search(authorName):
 This is the main function that loads the list of books from a text file and sorts them by author.
 """
 def main():
-    filePath = "requirements.txt"
-    books = loadBooks(filePath)
+    books = loadBooks(BOOKS_FILE)
 
     if not books:
         return
@@ -195,8 +203,7 @@ def main():
     else:
         print("\nNo books found by that author.")
 
-if __name__ == "__main__":
-    SORTEDBOOKS, SORTEDAUTHORS = initLibrary("requirements.txt")
+def buildDemo():
     demo = gr.Blocks(title="Library Author Search")
 
     with demo:
@@ -224,7 +231,17 @@ if __name__ == "__main__":
         # Wire interactions
         searchButton.click(search, inputs=authorDropdown, outputs=[headerOut, resultsOut])
 
-    if "--ui" in sys.argv:
-        demo.launch()
-    else:
+    return demo
+
+SORTEDBOOKS, SORTEDAUTHORS = initLibrary(BOOKS_FILE)
+demo = buildDemo()
+
+if __name__ == "__main__":
+    if "--cli" in sys.argv:
         main()
+    else:
+        demo.launch(
+            server_name="0.0.0.0",
+            server_port=DEFAULT_PORT,
+            show_error=True,
+        )
