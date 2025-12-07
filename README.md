@@ -20,7 +20,7 @@ TBD (add a short clip or screenshot of the Gradio UI running).
 - **Pattern Recognition:** repeated compare/append in merge sort; lower/upper bound binary search to locate the author window.
 - **Abstraction:** expose author list and search results; hide parsing, sorting, and index math.
 - **Algorithm Design:** merge sort on authors for stable ordering; binary search (lower/upper bounds) for O(log n) author lookup.
-- Flowchart: see `flowchart.png`.
+- ![FlowChart](flowchart.png)
 
 ## Steps to Run
 1. `pip install -r requirements.txt`
