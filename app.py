@@ -1,0 +1,156 @@
+# Online Library Application
+# File: app.py
+# Purpose: Library database that loads books, lists authors, and uses binary search to find books by author.
+# Date: 2025-12-03
+# Creator: Arhan B. Utku
+
+"""
+The Book class contains a books title and its author
+"""
+class Book:
+    
+    def __init__(self, title, author):
+        self.title = title
+        self.author = author
+
+    def __str__(self):
+        return f"{self.title} by {self.author}"
+
+"""
+This function reads the books file line-by-line and returns Book objects
+@param filePath Path to the books data file.
+@return list of Book objects loaded.
+"""
+def loadBooks(filePath):
+    books = []
+    try:
+        with open(filePath, 'r', encoding='utf-8') as file:
+            for line in file:
+                row = [dataField.strip() for dataField in line.strip().split(",") if dataField.strip() != "" or dataField == ""]
+                print(row)
+                title, author = row
+                books.append(Book(title, author))
+    except FileNotFoundError:
+        print(f"Error: File '{filePath}' not found.")
+    return books
+
+"""
+This helper performs a lower-bound binary search for the first book whose
+author is greater than or equal to the target.
+@param books Sorted list of Book objects.
+@param targetAuthor author string to search for.
+@return index of the first matching position.
+"""
+def lowerBound(books, targetAuthor):
+    low, high = 0, len(books)
+    while low < high:
+        mid = (low + high) // 2
+        if books[mid].author.lower() < targetAuthor:
+            low = mid + 1
+        else:
+            high = mid
+    return low
+
+"""
+This helper performs an upper-bound binary search for the first book whose
+author is strictly greater than the target.
+@param books Sorted list of Book objects.
+@param targetAuthor author string to search for.
+@return index just past the last matching position.
+"""
+def upperBound(books, targetAuthor):
+    low, high = 0, len(books)
+    while low < high:
+        mid = (low + high) // 2
+        if books[mid].author.lower() <= targetAuthor:
+            low = mid + 1
+        else:
+            high = mid
+    return low
+
+"""
+This function finds all books with a given author using binary search
+over a sorted list.
+@param sortedBooks List of Book objects sorted by author.
+@param authorName Author string as stored in the list.
+@return list slice of matching Book objects.
+"""
+def searchBooksByAuthor(sortedBooks, authorName):
+    target = authorName.lower()
+    start = lowerBound(sortedBooks, target)
+    end = upperBound(sortedBooks, target)
+    return sortedBooks[start:end]
+
+"""
+This function sorts the provided books by author using merge sort.
+@param books List of Book objects to be sorted.
+@return new list of Book objects sorted by author.
+"""
+def mergeSortBooksByAuthor(books):
+    if len(books) <= 1:
+        return books.copy()
+
+    sortedBooks = books.copy()
+    mergeWidth = 1
+    while mergeWidth < len(sortedBooks):
+        mergedLevel = []
+        for index in range(0, len(sortedBooks), mergeWidth * 2):
+            leftHalf = sortedBooks[index:index + mergeWidth]
+            rightHalf = sortedBooks[index + mergeWidth:index + (mergeWidth * 2)]
+            mergedLevel.extend(merge(leftHalf, rightHalf))
+        sortedBooks = mergedLevel
+        mergeWidth *= 2
+    return sortedBooks
+
+"""
+This helper merges two sorted lists of Book objects into a single list
+ordered by author.
+@param left Sorted list of Book objects.
+@param right Sorted list of Book objects.
+@return merged, sorted list of Book objects.
+"""
+def merge(left, right):
+    sortedBooks = []
+    leftIndex = 0
+    rightIndex = 0
+
+    while leftIndex < len(left) and rightIndex < len(right):
+        if left[leftIndex].author.lower() <= right[rightIndex].author.lower():
+            sortedBooks.append(left[leftIndex])
+            leftIndex += 1
+        else:
+            sortedBooks.append(right[rightIndex])
+            rightIndex += 1
+
+    sortedBooks.extend(left[leftIndex:])
+    sortedBooks.extend(right[rightIndex:])
+    return sortedBooks
+
+"""
+This is the main function that loads the list of books from a text file and sorts them by author.
+"""
+def main():
+    filePath = "requirements.txt"
+    books = loadBooks(filePath)
+
+    if not books:
+        return
+
+    sortedBooks = mergeSortBooksByAuthor(books)
+    authors = sorted({book.author for book in books}, key=str.lower)
+    print("\nAuthors in database:")
+    for author in authors:
+        print(author)
+
+    authorName = input("\nEnter author name to search: ")
+    foundBooks = searchBooksByAuthor(sortedBooks, authorName)
+    if foundBooks:
+        count = len(foundBooks)
+        print(f"\n{count} book{'s' if count != 1 else ''} by author '{authorName}':")
+        for book in foundBooks:
+            print(book)
+    else:
+        print("\nNo books found by that author.")
+
+if __name__ == "__main__":
+    main()

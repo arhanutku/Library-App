@@ -1,0 +1,23 @@
+1984,George Orwell
+A Brief History of Time,Stephen Hawking
+Bob,Rebecca Stead
+Chemistry 12,Frank Jenkins
+Cosmos,Carl Sagan
+Hamlet,William Shakespeare
+Julius Caesar,William Shakespeare
+MaddAddam,Margaret Atwood
+Othello,William Shakespeare
+Pride and Prejudice,Jane Austen
+Test2,Test Author
+The Catcher in the Rye,J.D. Salinger
+The Great Gatsby,F. Scott Fitzgerald
+To Kill a Mockingbird,Harper Lee
+Animal Farm,George Orwell
+Sense and Sensibility,Jane Austen
+Emma,Jane Austen
+Macbeth,William Shakespeare
+Twelfth Night,William Shakespeare
+Go Set a Watchman,Harper Lee
+The Handmaid's Tale,Margaret Atwood
+Nine Stories,J.D. Salinger
+Pale Blue Dot,Carl Sagan
