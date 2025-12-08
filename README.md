@@ -12,26 +12,24 @@ pinned: false
 
 # Library Author Search
 
-## Demo screenshots
-- ![](Use1.png)
-- ![](Use2.png)
-- ![](Use3.png)
+## Demo screenshots of testing
+Here are three example views of the app: ![](Use1.png) ![](Use2.png) ![](Use3.png)
 
 ## Problem Breakdown & Computational Thinking
-- **Decomposition:** parse `books.csv` into `Book` objects; merge-sort by `author.lower()`; build distinct author list; binary-search matches; render UI.
-- **Pattern Recognition:** repeated compare/append in merge sort; lower/upper bound binary search to locate the author window.
-- **Abstraction:** expose author list and search results; hide parsing, sorting, and index math.
-- **Algorithm Design:** merge sort on authors for stable ordering; binary search (lower/upper bounds) for O(log n) author lookup.
-- ![FlowChart](flowchart.png)
+**Decomposition:** The app reads `books.csv`, turns each row into a `Book` object, sorts the books by author, builds a distinct author list, searches for matches, and presents the results in the UI.  
+**Pattern Recognition:** The merge sort repeats the same compare and append steps at every level, and the search uses lower and upper bounds from binary search to find the author.  
+**Abstraction:** Users see the author list and the matched books.
+**Algorithm Design:** Merge sort keeps the authors in a stable order, and binary search finds the correct author range in logarithmic time.  
+Flowchart: ![FlowChart](flowchart.png)
 
 ## Steps to Run
-1. `pip install -r requirements.txt`
-2. `python app.py` and open the Gradio link shown in the terminal.
-3. CLI mode: `python app.py --cli` to search via the terminal.
+1. On Hugging Face Spaces, upload `app.py`, `books.csv`, `requirements.txt`, and this `README.md` to a Gradio Space. The Space installs the dependencies and starts the UI automatically at `https://huggingface.co/spaces/Arhan-U/Library_App`.
+2. For local UI use, run `pip install -r requirements.txt`, then run `python app.py` and open the Gradio link that appears in the console.
+3. For local CLI use, run `python app.py --cli` to search through the terminal. This mode is meant for local use and is not used on Spaces.
 
 ## Hugging Face Link
-TBD (add your Space URL here, e.g., `https://huggingface.co/spaces/<user>/<space-name>`).
+https://huggingface.co/spaces/Arhan-U/Library_App
 
 ## Author & Acknowledgment
 Author: Arhan B. Utku  
-Thanks to the Hugging Face Spaces + Gradio community for hosting and tooling.
+Hugging Face Spaces and Gradio for hosting and tooling. Google and Reddit were consulted for finding solutions to problems that appeared while coding.

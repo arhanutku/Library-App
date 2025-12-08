@@ -178,9 +178,8 @@ def search(authorName):
     details = "\n".join(str(book) for book in matches) if matches else "No books found."
     return header, details
 
-"""
-This is the main function that loads the list of books from a text file and sorts them by author.
-"""
+
+# This is the main function that loads the list of books from a text file and sorts them by author.
 def main():
     books = loadBooks(BOOKS_FILE)
 
