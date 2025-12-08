@@ -12,8 +12,10 @@ pinned: false
 
 # Library Author Search
 
-## Demo video/gif/screenshot of test
-TBD (add a short clip or screenshot of the Gradio UI running).
+## Demo screenshots
+- ![](Use1.png)
+- ![](Use2.png)
+- ![](Use3.png)
 
 ## Problem Breakdown & Computational Thinking
 - **Decomposition:** parse `books.csv` into `Book` objects; merge-sort by `author.lower()`; build distinct author list; binary-search matches; render UI.
